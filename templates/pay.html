@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pay</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <h2>Processing Payment...</h2>
+    <script>
+        var options = {
+            "key": "{{ key }}",
+            "amount": "{{ amount }}",
+            "currency": "INR",
+            "name": "Demo Payment",
+            "description": "Test transaction",
+            "order_id": "{{ order.id }}",
+            "handler": function (response){
+                fetch('/success', { method: 'POST' }).then(() => {
+                    alert("Payment Success ✅");
+                });
+            },
+            "prefill": {
+                "name": "Your Name",
+                "email": "email@example.com"
+            },
+            "theme": {
+                "color": "#3399cc"
+            },
+            "method": {
+                "upi": true,
+                "card": false,
+                "netbanking": false
+            }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
+    </script>
+</body>
+</html>
